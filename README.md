@@ -10,4 +10,16 @@ This repository contains the code for the Google Cloud Functions course on Udemy
 - Testing Google Cloud Functions
 - Securing Google Cloud Functions
 - Building a serverless application
-- 
+
+## Steps
+
+Create virtual enviroment
+```python3 -m venv venv```
+
+Activate virtual enviroment
+```source venv/bin/activate```
+
+Add requirements file requirements.txt
+
+Install dependencies, only execute it in virtual enviroment (venv)
+```pip install -r requirements.txt```
