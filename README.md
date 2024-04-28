@@ -13,6 +13,7 @@ This repository contains the code for the Google Cloud Functions course on Udemy
 
 ## Steps
 
+### Setup environment
 Create virtual enviroment
 ```python3 -m venv venv```
 
@@ -21,5 +22,19 @@ Activate virtual enviroment
 
 Add requirements file requirements.txt
 
-Install dependencies, only execute it in virtual enviroment (venv)
+Install dependencies, only execute it in virtual environment (venv)
 ```pip install -r requirements.txt```
+
+### Setup Google Cloud
+- First install [Google Cloud SDK](https://cloud.google.com/sdk/docs/downloads-versioned-archives)
+
+- Initialize Google Cloud SDK
+```gcloud init```
+
+- Select project
+```gcloud config set project <project_id>```
+e.g:
+  ```gcloud config set project cloud-cloud-functions-course-421703```
+
+- Deploy function
+```gcloud functions deploy hello_world --runtime python310 --trigger-http```
