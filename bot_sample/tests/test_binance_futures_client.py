@@ -170,8 +170,10 @@ class TestBinanceFuturesClient(unittest.TestCase):
             'position_side': 'LONG'
         }
         response = self.client.place_order(**params)
+        print("Open long pos response: ", response)
 
         response = self.client.close_position('BTCUSDT', 'LONG')
+        print("Close long pos response: ", response)
         self.assertTrue('orderId' in response)
         # get open positions and assert
         open_positions = self.client.get_open_positions()

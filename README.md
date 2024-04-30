@@ -72,3 +72,63 @@ To delete a Cloud Function run the following command:
 ```
 gcloud functions delete [FUNCTION_NAME]
 ```
+
+## Setup static IP for the Cloud Functions
+
+### Enable the necessary APIs:
+```shell
+# Enable Cloud Functions API
+gcloud services enable cloudfunctions.googleapis.com
+
+# Enable VPC Access API
+gcloud services enable vpcaccess.googleapis.com
+
+# Enable Compute Engine API (required for Cloud NAT)
+gcloud services enable compute.googleapis.com
+```
+
+### Create a VPC and Subnet
+```shell
+# Create a new VPC network
+gcloud compute networks create YOUR_VPC_NAME --subnet-mode=custom
+
+# Create a new subnet in the VPC
+gcloud compute networks subnets create YOUR_SUBNET_NAME \
+    --network=YOUR_VPC_NAME \
+    --region=YOUR_REGION \
+    --range=YOUR_CIDR_RANGE
+```
+YOUR_CIDR_RANGE: The IP address range in CIDR format for the subnet, e.g., 10.0.0.0/24
+
+### Set Up a Serverless VPC Access Connector
+```shell
+gcloud compute networks vpc-access connectors create [CONNECTOR_NAME] --region [REGION] --network [VPC_NAME] --range [IP_RANGE]
+```
+
+[IP_RANGE] with an IP range in CIDR notation that is reserved for the connector within the subnet’s range. 
+E.g: 10.8.0.0/28
+
+### Configure Cloud NAT
+```shell
+# Create a Cloud Router
+gcloud compute routers create [ROUTER_NAME] --region [REGION] --network [VPC_NAME]
+
+# Reserve a static IP address for Cloud NAT
+gcloud compute addresses create bot-sample-external-ip --project=binance-bot-sample --description=bot-sample-external-ip --region=asia-southeast1
+
+# Configure Cloud NAT to use the static IP:
+gcloud compute routers nats create bot-sample-nat \
+  --router bot-sample-router \
+  --region asia-southeast1 \
+  --nat-all-subnet-ip-ranges \
+  --nat-external-ip-pool bot-sample-external-ip
+```
+
+### Deploy the Cloud Function
+```shell
+gcloud functions deploy [FUNCTION_NAME] \
+--runtime python310 \
+--trigger-http \
+--vpc-connector bot-sample-connector 
+```
+
