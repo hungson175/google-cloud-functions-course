@@ -70,7 +70,6 @@ def execute_strategy(symbol='BTCUSDT', interval='4h', period=50, quantity=0.01):
 #     execute_strategy(symbol)
 #
 #     return f'Trading bot executed for {escape(symbol)}.'
-
-if __name__ == '__main__':
-    execute_strategy()
+# if __name__ == '__main__':
+#     execute_strategy()
 

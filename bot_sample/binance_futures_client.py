@@ -13,13 +13,10 @@ class BinanceFuturesClient:
     BASE_URL_TESTNET_FUTURE = "https://testnet.binancefuture.com"  # Testnet base URL
 
     def __init__(self, api_key, api_secret, testing=True):
-        load_dotenv()
         if (api_key is None) or (api_secret is None):
+            load_dotenv()
             api_key = os.getenv("FUTURE_API_KEY")
             api_secret = os.getenv("FUTURE_API_SECRET")
-
-        print(f"API_KEY:{api_key}")
-        print(f"API_SECRET:{api_secret}")
 
         """Initialize the Binance Futures client with API keys."""
         base_url = "https://testnet.binancefuture.com" if testing else "https://fapi.binance.com"
@@ -103,7 +100,7 @@ class BinanceFuturesClient:
         positions = account_info['positions']
         res = []
         for position in positions:
-            if (float(position['positionAmt']) != 0):
+            if float(position['positionAmt']) != 0:
                 res.append(self.close_position(position['symbol'], position['positionSide']))
         return res
 

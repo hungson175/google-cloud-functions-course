@@ -6,10 +6,10 @@ import json
 def ms_to_datetime(ms):
     return datetime.datetime.fromtimestamp(ms / 1000.0)
 
+
 # beautify json output
 def beautify_json(json_data):
     print(json.dumps(json_data, indent=4))
-
 
 
 # Print the schema of a dictionary, assumed that if there is a list, all elements are of the same type
@@ -38,6 +38,7 @@ def print_dict_schema(data, indent=0):
         else:
             print()  # Move to the next line after printing the type
 
+
 # Get the schema of a dictionary, assumed that if there is a list, all elements are of the same type
 def get_dict_schema(data):
     schema = {}
@@ -57,6 +58,7 @@ def get_dict_schema(data):
         else:
             schema[key] = type(value).__name__
     return schema
+
 
 # print the assets with walletBalance > 0
 def print_account_assets(account):

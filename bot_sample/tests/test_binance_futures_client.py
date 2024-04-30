@@ -1,11 +1,8 @@
-import os
 import time
 import unittest
-from collections import namedtuple
 from unittest.mock import patch
-import utils
-from binance_futures_client import BinanceFuturesClient, Candle
 
+from ..binance_futures_client import BinanceFuturesClient
 
 
 class TestBinanceFuturesClient(unittest.TestCase):
@@ -90,7 +87,7 @@ class TestBinanceFuturesClient(unittest.TestCase):
             'symbol': 'ETHUSDT',
             'side': 'BUY',
             'order_type': 'MARKET',
-            'quantity': 0.1,
+            'quantity': 0.01,
             'position_side': 'LONG'
         }
         response = self.client.place_order(**params)
@@ -225,7 +222,7 @@ class TestBinanceFuturesClient(unittest.TestCase):
             'symbol': 'ETHUSDT',
             'side': 'BUY',
             'order_type': 'MARKET',
-            'quantity': 0.1,
+            'quantity': 0.01,
             'position_side': 'LONG'
         }
         response = self.client.place_order(**params)
@@ -282,7 +279,6 @@ class TestBinanceFuturesClient(unittest.TestCase):
         response = self.client.set_leverage('BTCUSDT', 20)
         self.assertTrue('leverage' in response)
         self.assertEqual(response['leverage'], 20)
-
 
     # test klines
     def test_klines(self):
