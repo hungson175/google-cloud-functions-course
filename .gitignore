@@ -1,6 +1,7 @@
 # Manual excluded:
-./bot_sample/.env.yaml
-./bot_sample/.env
+.env.yml
+.env.yaml
+.env
 
 # PyCharm files
 .idea/
