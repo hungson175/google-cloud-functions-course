@@ -1,40 +1,74 @@
-# Google cloud functions course
-## Introduction
-This repository contains the code for the Google Cloud Functions course on Udemy. The course is designed to teach you how to build serverless applications using Google Cloud Functions. The course covers the following topics:
-- Introduction to serverless computing
-- Introduction to Google Cloud Functions
-- Setting up Google Cloud Functions
-- Deploying Google Cloud Functions
-- Triggering Google Cloud Functions
-- Monitoring Google Cloud Functions
-- Testing Google Cloud Functions
-- Securing Google Cloud Functions
-- Building a serverless application
+# Google Cloud Functions Course
+## Starting a project
+To start a new project in Google Cloud, we can go to the
+[Firebase Console](https://console.firebase.google.com) or
+create it from [Google Cloud Platform Console](https://console.cloud.google.com).
+## Creating a virtual environment
+First we have to install `python3-venv` with:
+```
+sudo apt install python3-venv
+```
+Then, we create the virtual environment:
+```
+python3 -m venv venv
+```
+To activate the virtual environment:
+```
+source venv/bin/activate
+```
+Then, we can add dependencies (packages) by putting them
+in a `requirements.txt` file and we then install them with:
+```
+pip install -r requirements.txt
+```
+Testing the function locally, with example:
+```
+functions-framework --target [FUNCTION_NAME] --debug
+functions-framework --target hello_world
+```
 
-## Steps
 
-### Setup environment
-Create virtual enviroment
-```python3 -m venv venv```
+## Deploying our functions
+First, we have to set our project ID with the following 
+command:
+```
+gcloud config set project [YOUR_PROJECT_ID]
+```
+Then we deploy our function with this command:
+```
+gcloud functions deploy [FUNCTION_NAME] --runtime python310 --trigger-http
+```
+Deloy and force region:
+```shell
+gcloud functions deploy [FUNCTION_NAME] --runtime python310 --trigger-http --region [REGION]
+gcloud functions deploy hello_me --runtime python310 --trigger-http --region asia-southeast1
+```
+List all functions with:
+```
+gcloud functions list
+```
+Show information about the current project:
+```
+gcloud config list
+```
 
-Activate virtual enviroment
-```source venv/bin/activate```
-
-Add requirements file requirements.txt
-
-Install dependencies, only execute it in virtual environment (venv)
-```pip install -r requirements.txt```
-
-### Setup Google Cloud
-- First install [Google Cloud SDK](https://cloud.google.com/sdk/docs/downloads-versioned-archives)
-
-- Initialize Google Cloud SDK
-```gcloud init```
-
-- Select project
-```gcloud config set project <project_id>```
-e.g:
-  ```gcloud config set project cloud-cloud-functions-course-421703```
-
-- Deploy function
-```gcloud functions deploy hello_world --runtime python310 --trigger-http```
+## Deploying cloud functions with environment variables and other dependencies
+We have to create a `.env.yaml` file and a `requirements.txt` file
+in the same directory of our `main.py` and then run
+the following command:
+```
+gcloud functions deploy [FUNCTION_NAME] --env-vars-file .env.yaml --runtime python37 --trigger-http
+```
+## Schedule Cloud Functions
+We execute the following commands:
+```
+gcloud components install beta
+gcloud components update
+gcloud pubsub topics create [TOPIC_NAME]
+gcloud pubsub subscriptions create cron-sub --topic [TOPIC_NAME]
+```
+## Deleting a Cloud Function
+To delete a Cloud Function run the following command:
+```
+gcloud functions delete [FUNCTION_NAME]
+```
