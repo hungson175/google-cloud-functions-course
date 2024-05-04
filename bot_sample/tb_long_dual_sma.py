@@ -69,6 +69,7 @@ class TradingBot_Long_Dual_SMA:
                         and last_candle['close'] > last_ma * (1 + pct)) \
             else False
 
+    @staticmethod
     def should_close_long(self, df, ma_window, pct):
         # should close when: the last candle cuts the ma from above (open > ma, close < ma)
         ma_frame = pd.DataFrame()

@@ -12,12 +12,19 @@ Candle = namedtuple('Candle', ['open_time', 'open', 'high', 'low', 'close', 'vol
 class BinanceFuturesClient:
     BASE_URL_TESTNET_FUTURE = "https://testnet.binancefuture.com"  # Testnet base URL
 
-    def __init__(self, api_key, api_secret, testing=True):
+    def __init__(self, api_key, api_secret):
+        testing = True
         if (api_key is None) or (api_secret is None):
             load_dotenv()
+            if os.getenv("STAGE", "Test").lower() == "live":
+                testing = False
+            else:
+                testing = True
             api_key = os.getenv("FUTURE_API_KEY")
             api_secret = os.getenv("FUTURE_API_SECRET")
-
+            if testing:
+                api_key = os.getenv("TEST_FUTURE_API_KEY")
+                api_secret = os.getenv("TEST_FUTURE_API_SECRET")
         """Initialize the Binance Futures client with API keys."""
         base_url = "https://testnet.binancefuture.com" if testing else "https://fapi.binance.com"
         self.client = UMFutures(key=api_key, secret=api_secret, base_url=base_url)

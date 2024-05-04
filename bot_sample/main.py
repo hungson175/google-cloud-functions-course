@@ -1,6 +1,7 @@
 from binance_futures_client import BinanceFuturesClient
 from tb_long_dual_sma import TradingBot_Long_Dual_SMA
 
+
 def execute_strategy(request):
     if request.method == 'OPTIONS':
         headers = {
@@ -13,21 +14,18 @@ def execute_strategy(request):
     headers = {
         'Access-Control-Allow-Origin': '*'
     }
-    request_args = request.args
-    response = ""
-    if request_args and 'symbol' in request_args:
-        symbol = request_args['symbol']
-    else:
-        symbol = 'BTCUSDT'
-        # bot = TradingBot( BinanceFuturesClient(None, None, testing=True))
-        # bot.execute_strategy(symbol,interval='4h', period=50, quantity=0.005)
-        bot = TradingBot_Long_Dual_SMA(BinanceFuturesClient(None, None, True))
-        response = bot.execute_strategy('BTCUSDT',
-                                        '5m',
-                                        60,
-                                        0.01,
-                                        12,
-                                        0.01,
-                                        0.01)
-        print(response)
-    return f'Trading bot response:  {response}.'
+    try:
+        request_args = request.args
+        symbol = request_args.get('symbol', "BTCUSDT")
+        interval = request_args.get('interval', "4h")
+        slow_ma = int(request_args.get('slow_ma', 109))
+        fast_ma = int(request_args.get('fast_ma', 46))
+        entry_pct = float(request_args.get('entry_pct', 0.3))
+        tolerance_pct = float(request_args.get('tolerance_pct', 0.8))
+        quantity = float(request_args.get('quantity', 0.405))
+
+        bot = TradingBot_Long_Dual_SMA(BinanceFuturesClient(None, None, False))
+        response = bot.execute_strategy(symbol, interval, slow_ma, entry_pct, fast_ma, tolerance_pct, quantity)
+        return f'Trading bot response: {response}', 200, headers
+    except ValueError as e:
+        return f'Error processing parameters: {str(e)}', 400, headers

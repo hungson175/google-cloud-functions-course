@@ -41,7 +41,7 @@ gcloud functions deploy [FUNCTION_NAME] --runtime python310 --trigger-http
 Deloy and force region:
 ```shell
 gcloud functions deploy [FUNCTION_NAME] --runtime python310 --trigger-http --region [REGION]
-gcloud functions deploy hello_me --runtime python310 --trigger-http --region asia-southeast1
+gcloud functions deploy execute_strategy --runtime python310 --trigger-http --region asia-southeast1
 ```
 List all functions with:
 ```
@@ -53,11 +53,12 @@ gcloud config list
 ```
 
 ## Deploying cloud functions with environment variables and other dependencies
-We have to create a `.env.yaml` file and a `requirements.txt` file
+We have to create a `.env` file and a `requirements.txt` file
 in the same directory of our `main.py` and then run
 the following command:
 ```
 gcloud functions deploy [FUNCTION_NAME] --env-vars-file .env.yaml --runtime python37 --trigger-http
+gcloud functions deploy execute_strategy --env-vars-file .env --runtime python310 --trigger-http
 ```
 ## Schedule Cloud Functions
 We execute the following commands:
@@ -129,6 +130,11 @@ gcloud compute routers nats create bot-sample-nat \
 gcloud functions deploy [FUNCTION_NAME] \
 --runtime python310 \
 --trigger-http \
---vpc-connector bot-sample-connector 
+--vpc-connector bot-sample-connector
+gcloud functions deploy execute_strategy \
+--env-vars-file .env \
+--runtime python310 \
+--trigger-http --vpc-connector bot-sample-connector \
+--region asia-southeast1 
 ```
 
