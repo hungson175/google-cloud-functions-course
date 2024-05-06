@@ -24,7 +24,7 @@ def execute_strategy(request):
         tolerance_pct = float(request_args.get('tolerance_pct', 0.8))
         quantity = float(request_args.get('quantity', 0.405))
 
-        bot = TradingBot_Long_Dual_SMA(BinanceFuturesClient(None, None, False))
+        bot = TradingBot_Long_Dual_SMA(BinanceFuturesClient(None, None))
         response = bot.execute_strategy(symbol, interval, slow_ma, entry_pct, fast_ma, tolerance_pct, quantity)
         return f'Trading bot response: {response}', 200, headers
     except ValueError as e:

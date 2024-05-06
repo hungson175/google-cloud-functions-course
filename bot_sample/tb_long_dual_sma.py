@@ -81,14 +81,3 @@ class TradingBot_Long_Dual_SMA:
                 (last_candle['open'] > last_ma or next_to_last_candle['open'] > last_ma)
                 and last_candle['close'] < last_ma * (1 - pct)) \
             else False
-
-# if __name__ == '__main__':
-#     bot = TradingBot_Long_Dual_SMA(BinanceFuturesClient(None, None, True))
-#     response = bot.execute_strategy('BTCUSDT',
-#                          '5m',
-#                          21,
-#                          0.01,
-#                          7,
-#                          0.01,
-#                          0.01)
-#     print(response)
