@@ -131,6 +131,7 @@ gcloud functions deploy [FUNCTION_NAME] \
 --runtime python310 \
 --trigger-http \
 --vpc-connector bot-sample-connector
+
 gcloud functions deploy execute_strategy \
 --env-vars-file .env \
 --runtime python310 \
